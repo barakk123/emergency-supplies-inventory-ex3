@@ -1,0 +1,15 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: var(--primary-color);
+  }
+  
+  .search-input {
+    padding: 8px;
+    font-size: 16px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 4px;
+  }
+  

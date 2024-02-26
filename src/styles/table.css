@@ -1,0 +1,19 @@
+.supplies-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .supplies-table thead {
+    background-color: var(--table-header-color);
+  }
+  
+  .supplies-table th, .supplies-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--secondary-color);
+  }
+  
+  .supplies-table tbody tr:hover {
+    background-color: var(--background-color);
+  }
+  

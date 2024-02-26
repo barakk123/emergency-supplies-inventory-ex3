@@ -1,0 +1,29 @@
+.button-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .button-primary:hover {
+    background-color: darken(var(--primary-color), 10%);
+  }
+  
+  .button-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .button-secondary:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
