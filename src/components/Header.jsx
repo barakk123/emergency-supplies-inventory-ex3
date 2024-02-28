@@ -1,70 +1,63 @@
-import { useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import useFindSupply from '../hooks/useFindSupply';
-import '../styles/header.css';
+import { useContext, useState } from "react";
+import "../styles/header.css";
+import { BsSearch } from "react-icons/bs";
+import { IoMdAdd } from "react-icons/io";
+import { SupplyContext } from "../contexts/SupplyContext";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import AddSupply from "./AddSupply";
 
-const Header = ({ handleFoundSupply }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const { find, foundSupply, loading, error, clearError } = useFindSupply();
+const Header = () => {
+  const { dispatch } = useContext(SupplyContext);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    if (event.target.value == "") {
+      dispatch({ type: "SET_SEARCH_TERM", payload: "" });
+    }
   };
-
   const handleSearchSubmit = () => {
-    find(searchTerm);
+    dispatch({ type: "SET_SEARCH_TERM", payload: searchTerm });
   };
 
-  const handleSetFoundSupply = useCallback((supply) => {
-    handleFoundSupply(supply);
-  }, [handleFoundSupply]);
-
-  useEffect(() => {
-    if (foundSupply) {
-      handleSetFoundSupply(foundSupply);
-    }
-  }, [foundSupply, handleSetFoundSupply]);
-
-  const handleClearSearch = () => {
-    setSearchTerm('');
-    handleSetFoundSupply(null);
-    clearError();
+  const openModal = () => {
+    setOpen(true);
   };
-
-  useEffect(() => {
-    if (!searchTerm) {
-      handleSetFoundSupply(null);
-      clearError();
-    }
-  }, [searchTerm, handleSetFoundSupply, clearError]);
-  
   return (
     <div className="header">
       <h1>Supplies Inventory</h1>
-      <div>
+      <Button
+        onClick={openModal}
+        startIcon={<IoMdAdd />}
+        variant="contained"
+        sx={{ textTransform: "none" }}>
+        Add New Supply
+      </Button>
+      <div className="search">
         <input
           type="text"
           className="search-input"
-          placeholder="Product name"
+          placeholder="Search for a supply..."
           value={searchTerm}
           onChange={handleSearchChange}
         />
-        
-        <button onClick={handleSearchSubmit} disabled={loading}>
-          {loading ? 'Searching...' : 'Find'}
+        <button onClick={handleSearchSubmit}>
+          <BsSearch className="BsSearch" />
         </button>
-        
-        <button onClick={handleClearSearch}>Clear</button>
-        
-        {error && <p>Error: {error}</p>}
-        {loading && <p>Loading...</p>}
       </div>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <>
+          <AddSupply onClose={() => setOpen(false)} />
+        </>
+      </Modal>
     </div>
   );
-};
-
-Header.propTypes = {
-  handleFoundSupply: PropTypes.func.isRequired,
 };
 
 export default Header;

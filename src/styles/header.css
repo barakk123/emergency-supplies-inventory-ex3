@@ -7,9 +7,25 @@
   }
   
   .search-input {
-    padding: 8px;
+    padding-left: 12px;
+    background-size: 24px;
+    background-position: 4px center;
+    background-repeat: no-repeat;
     font-size: 16px;
-    border: 2px solid var(--secondary-color);
-    border-radius: 4px;
+    border: 1px solid;
+    border-radius: 6px;
+    height: 34px;
+    border-color: grey;  
+}
+  
+  .BsSearch {
+    padding: 0 10px;
+}
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
   
