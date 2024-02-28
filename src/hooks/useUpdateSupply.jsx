@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { updateSupply } from '../services/apiService';
 
 const useUpdateSupply = () => {
+  const clearError = () => setError(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,7 +17,7 @@ const useUpdateSupply = () => {
     }
   };
 
-  return { update, isUpdating, error };
+  return { update, isUpdating, error, clearError };
 };
 
 export default useUpdateSupply;

@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { getSupply } from '../services/apiService';
 
 const useFindSupply = () => {
+  const clearError = () => setError(null);
   const [foundSupply, setFoundSupply] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const find = async (supplyName) => {
     if (!supplyName.trim()) {
-      setError('Supply name cannot be empty');
       return;
     }
     setLoading(true);
@@ -17,13 +17,12 @@ const useFindSupply = () => {
       setFoundSupply(data);
       setError(null);
     } catch (err) {
-      setError('Error fetching supply: ' + err.message);
+      setError(`Could not find product name "${supplyName}"`);
       setFoundSupply(null);
     } finally {
       setLoading(false);
     }
   };
-  const clearError = () => setError(null);
 
   return { find, foundSupply, loading, error, clearError };
 };

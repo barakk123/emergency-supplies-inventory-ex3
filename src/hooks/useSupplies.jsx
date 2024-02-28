@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getSupplies } from '../services/apiService';
 
 const useSupplies = () => {
+  const clearError = () => setError(null);
   const [supplies, setSupplies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,7 +24,7 @@ const useSupplies = () => {
     fetchSupplies();
   }, []);
 
-  return { supplies, loading, error };
+  return { supplies, loading, error, clearError };
 };
 
 export default useSupplies;

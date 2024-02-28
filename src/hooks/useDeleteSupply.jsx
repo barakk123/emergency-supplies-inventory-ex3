@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { deleteSupply } from '../services/apiService';
 
 const useDeleteSupply = () => {
+  const clearError = () => setError(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,7 +17,7 @@ const useDeleteSupply = () => {
     }
   };
 
-  return { remove, isDeleting, error };
+  return { remove, isDeleting, error, clearError };
 };
 
 export default useDeleteSupply;
