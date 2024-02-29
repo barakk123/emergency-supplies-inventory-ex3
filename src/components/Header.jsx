@@ -39,7 +39,7 @@ const Header = () => {
         <input
           type="text"
           className="search-input"
-          placeholder="Search for a supply..."
+          placeholder="Product Name"
           value={searchTerm}
           onChange={handleSearchChange}
         />
