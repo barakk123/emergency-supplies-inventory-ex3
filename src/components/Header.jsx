@@ -33,13 +33,13 @@ const Header = () => {
         startIcon={<IoMdAdd />}
         variant="contained"
         sx={{ textTransform: "none" }}>
-        Add New Supply
+        New Product
       </Button>
       <div className="search">
         <input
           type="text"
           className="search-input"
-          placeholder="Search for a supply..."
+          placeholder="Product Name"
           value={searchTerm}
           onChange={handleSearchChange}
         />

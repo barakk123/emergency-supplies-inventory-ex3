@@ -2,26 +2,27 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import "../styles/modal.css";
 import { useContext, useState } from "react";
-import { addSupply } from "../services/apiService";
+import { updateSupply } from "../services/apiService";
 import { SupplyContext } from "../contexts/SupplyContext";
 import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 import PropTypes from "prop-types";
 
-const AddSupply = ({ onClose }) => {
-  const { dispatch } = useContext(SupplyContext);
+const EditSupply = ({ onClose }) => {
+  const { state, dispatch } = useContext(SupplyContext);
   const [newItem, setNewItem] = useState({
-    supply_name: "",
-    category: "",
-    location: "",
-    quantity: "",
-    supplier: "",
-    unit_price: "",
+    supply_name: state.selected.supply_name,
+    category: state.selected.category,
+    location: state.selected.location,
+    quantity: state.selected.quantity,
+    supplier: state.selected.supplier,
+    unit_price: state.selected.unit_price,
   });
 
-  const addNewItem = async () => {
+  const editItem = async () => {
     try {
-      const response = await addSupply(newItem);
-      dispatch({ type: "ADD", payload: response });
+      const response = await updateSupply(state.selected.supply_name, newItem);
+      dispatch({ type: "UPDATE", payload: response });
       setNewItem({
         supply_name: "",
         category: "",
@@ -32,12 +33,12 @@ const AddSupply = ({ onClose }) => {
       });
       onClose();
     } catch (error) {
-      alert("An error occurred while adding the supply." + error);
+      alert("An error occurred while updating the supply." + error);
     }
   };
   return (
     <Box className="modal">
-      <h3>New Product</h3>
+      <h3>Edit Supply</h3>
       <div className="input-stack">
         <TextField
           required
@@ -93,13 +94,29 @@ const AddSupply = ({ onClose }) => {
         />
       </div>
 
-      <Button onClick={addNewItem} variant="contained">Add Product</Button>
+      <Stack direction="row" spacing={5}>
+        <Button
+          onClick={() => {
+            onClose();
+            setNewItem({
+              supply_name: "",
+              category: "",
+              location: "",
+              quantity: "",
+              supplier: "",
+              unit_price: "",
+            });
+          }}>
+          Cancel
+        </Button>
+            <Button onClick={editItem} variant="contained">Save</Button>
+      </Stack>
     </Box>
   );
 };
 
-AddSupply.propTypes = {
+EditSupply.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default AddSupply;
+export default EditSupply;

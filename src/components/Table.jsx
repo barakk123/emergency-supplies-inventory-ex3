@@ -1,13 +1,18 @@
 import "../styles/table.css";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getSupplies, deleteSupply } from "../services/apiService";
 import { SupplyContext } from "../contexts/SupplyContext";
+import Modal from "@mui/material/Modal";
+import EditSupply from "../components/EditSupply";
 
 const Table = () => {
   const { state, dispatch } = useContext(SupplyContext);
   const { error } = state;
- 
+  const [open, setOpen] = useState(false);
+  const openModal = () => {
+    setOpen(true);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +20,7 @@ const Table = () => {
         const response = await getSupplies();
         dispatch({ type: "SET", payload: response });
       } catch (error) {
+        console.log(error.message);
         dispatch({ type: "SET_ERROR", payload: error.message });
       }
     };
@@ -23,12 +29,17 @@ const Table = () => {
   const { supplies, searchTerm } = state;
 
   const handleDelete = (supply_name) => async () => {
-    const result = await deleteSupply(supply_name);
-    dispatch({ type: "REMOVE", payload: supply_name });
-    result
+    const isConfirmed = window.confirm(`Are you sure you want to delete ${supply_name}?`);
+    if (isConfirmed) {
+      await deleteSupply(supply_name);
+      dispatch({ type: "REMOVE", payload: supply_name });
+    }
   };
 
-  
+  const handleEdit = (supply) => () => {
+    dispatch({ type: "SELECT", payload: supply });
+    openModal();
+  };
 
   return (
     <>
@@ -61,7 +72,7 @@ const Table = () => {
                   <td>{supply.supplier}</td>
                   <td>{supply.location}</td>
                   <td>
-                    <button>
+                    <button onClick={handleEdit(supply)}>
                       <MdModeEdit />
                     </button>
                     <button onClick={handleDelete(supply.supply_name)}>
@@ -79,7 +90,15 @@ const Table = () => {
           {error}
         </div>
       )}
-      
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <>
+          <EditSupply onClose={() => setOpen(false)} supply={state.selected} />
+        </>
+      </Modal>
     </>
   );
 };
