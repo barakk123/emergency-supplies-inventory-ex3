@@ -35,7 +35,7 @@ This guide will help you set up the frontend application on your local machine f
 
 ### Configuration
 
-To connect the frontend application to your backend server, update the [apiService]`src/services/appiService.js` file with the base URL of your backend API.
+To connect the frontend application to your backend server, update the [apiService.js](src/services/apiService.js) file with the base URL of your backend API.
 
 Example:
 ```js
@@ -49,7 +49,7 @@ Navigate to `http://localhost:5173/` to view and interact with the application. 
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file in the repository for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 Thank you for reading this and for checking out my mini project
