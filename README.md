@@ -35,7 +35,7 @@ This guide will help you set up the frontend application on your local machine f
 
 ### Configuration
 
-To connect the frontend application to your backend server, update the [apiService]`src/services/appiService.js` file with the base URL of your backend API.
+To connect the frontend application to your backend server, update the [apiService](src/services/apiService.js) file with the base URL of your backend API.
 
 Example:
 ```js
