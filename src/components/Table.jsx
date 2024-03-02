@@ -5,6 +5,7 @@ import { getSupplies, deleteSupply } from "../services/apiService";
 import { SupplyContext } from "../contexts/SupplyContext";
 import Modal from "@mui/material/Modal";
 import EditSupply from "../components/EditSupply";
+import Skeleton from "@mui/material/Skeleton"
 
 const Table = () => {
   const { state, dispatch } = useContext(SupplyContext);
@@ -13,16 +14,19 @@ const Table = () => {
   const openModal = () => {
     setOpen(true);
   };
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await getSupplies();
         dispatch({ type: "SET", payload: response });
       } catch (error) {
         console.log(error.message);
         dispatch({ type: "SET_ERROR", payload: error.message });
       }
+      setLoading(false);
     };
     fetchData();
   }, [dispatch]);
@@ -56,7 +60,12 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {supplies &&
+          {loading ? (
+          <tr>
+            <td colSpan="7">
+              <Skeleton variant="rectangular" width="100%" height={118} animation="wave" />
+            </td>
+          </tr>) : supplies &&
             supplies
               .filter((supply) =>
                 supply.supply_name
@@ -83,6 +92,7 @@ const Table = () => {
               ))}
         </tbody>
       </table>
+      {loading && <p>Loading...</p>}
       {error && (
         <div className="error">
           <h4>Error fetching data</h4>
